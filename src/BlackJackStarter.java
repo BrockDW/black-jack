@@ -108,7 +108,7 @@ public class BlackJackStarter {
             this.startSingleGame();
             System.out.println("\n\nWould you like to try another game?");
             String userResult = sc.nextLine().toUpperCase();
-            if (userResult.equals("N")){
+            if (!userResult.equals("Y")){
                 System.out.println("Thank you for playing the game! Have a nice day!");
                 break;
             }
