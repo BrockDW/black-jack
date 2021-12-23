@@ -3,6 +3,7 @@ import java.util.*;
 
 public class BlackJackStarter {
     private ArrayList<Card> allCard = new ArrayList<>();
+    private Scanner sc = new Scanner(System.in);
 
     public BlackJackStarter(){
         for (int i = 0; i < BlackJackMetadata.numOfDeck; i++){
@@ -15,35 +16,58 @@ public class BlackJackStarter {
     }
 
     public void startGame(){
-//        PriorityQueue<Card> curDeck = new PriorityQueue<>();
-//        LinkedList<Card> curDeck
         Collections.shuffle(allCard);
-
         ArrayList<Card> playerHand = new ArrayList<>();
         ArrayList<Card> dealerHand = new ArrayList<>();
         Integer playerNum = 0;
         Integer dealerNum = 0;
         int term = 0;
-        Scanner sc = new Scanner(System.in);
 
-        while (true){
+        while (term<3){
             for (Card curCard: allCard){
                 if (term == 0){
                     playerHand.add(curCard);
+                    playerNum += curCard.curRank;
+                    if (playerNum > 21){
+                        System.out.println("Player's hand exceed 21, Dealer wins!!");
+                        term = 4;
+                        break;
+                    }
                     term = 1;
                 } else {
                     dealerHand.add(curCard);
+                    dealerNum += curCard.curRank;
                     String userResult = "";
+                    if (dealerNum > 21){
+                        System.out.println("Dealer's hand exceed 21, Player wins!!");
+                        term = 3;
+                    }
                     if (term == 1){
                         System.out.println("Your current hand includes: " + playerHand.toString() + ", would you like another card?");
-                        userResult = sc.nextLine();
-                    }
-                    if (userResult.toUpperCase().equals("Y")){
-                        term = 0;
+                        userResult = sc.nextLine().toUpperCase();
+                        System.out.println(userResult);
+//                      System.out.println(!(userResult.equals("Y") || userResult.equals("N")));
+                        while (!(userResult.equals("Y") || userResult.equals("N"))){
+                            System.out.println("your input is invalid please try again");
+                            userResult = sc.nextLine().toUpperCase();
+//                        System.out.println(!(userResult.equals("Y") || userResult.equals("N")));
+                        }
+                        if (userResult.equals("Y")) {
+                            term = 0;
+                        } else {
+                            term = 2;
+                        }
                     } else {
-                        term = 2;
-                        break;
+                        if (dealerNum < playerNum){
+                            System.out.println("Dealer gained a card. Currently has smaller number than player");
+                        } else if (dealerNum > playerNum){
+                            System.out.println("Dealer gained a card. Currently has greater number than player");
+                            System.out.println("Dealer wins!!");
+                            term = 4;
+                        }
+
                     }
+//
                 }
             }
         }
