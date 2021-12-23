@@ -54,23 +54,23 @@ public class BlackJackStarter {
     }
 
     public void startSingleGame(){
-//        initialize each hand and the value of player's hand
+        // initialize each hand and the value of player's hand
         ArrayList<Card> playerHand = new ArrayList<>();
         ArrayList<Card> dealerHand = new ArrayList<>();
         Integer playerNum = 0;
         Integer dealerNum = 0;
-//        game condidtion,
-//        0 = player term
-//        1 = dealer term
-//        2 = player hand fixed
-//        3 = player win
-//        4 = dealer win
+        // game condidtion,
+        // 0 = player term
+        // 1 = dealer term
+        // 2 = player hand fixed
+        // 3 = player win
+        // 4 = dealer win
         int term = 0;
 
         while (term<3){
-//            iterate all cards
+            // iterate all cards
             for (;curIndex < allCard.size(); curIndex++){
-//                add a card to player hand and check if it exceed 21 or not
+                // add a card to player hand and check if it exceed 21 or not
                 Card curCard = allCard.get(curIndex);
                 if (term == 0){
                     playerHand.add(curCard);
@@ -80,10 +80,10 @@ public class BlackJackStarter {
                         term = 4;
                         break;
                     }
-//                    switch to dealer term
+                    // switch to dealer term
                     term = 1;
                 } else {
-//                  add a card to dealer hand and check if it exceed 21 or not
+                    // add a card to dealer hand and check if it exceed 21 or not
                     dealerHand.add(curCard);
                     dealerNum += curCard.curRank;
                     String userResult = "";
