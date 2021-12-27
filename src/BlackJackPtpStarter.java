@@ -4,8 +4,8 @@ class BlackJackPtpStarter extends BlackJackStarter {
     //    scanner for accessing user input
     private final Scanner sc = new Scanner(System.in);
 
-    public BlackJackPtpStarter() {
-        super();
+    public BlackJackPtpStarter(int numOfDeck) {
+        super(numOfDeck);
     }
 
     @Override
@@ -35,7 +35,7 @@ class BlackJackPtpStarter extends BlackJackStarter {
     }
 
     public static void main(String[] args) {
-        BlackJackPtpStarter gs = new BlackJackPtpStarter();
+        BlackJackPtpStarter gs = new BlackJackPtpStarter(1);
         gs.startGame();
     }
 }

@@ -3,8 +3,8 @@ class BlackJackAutoGameStarter extends BlackJackStarter {
     private int term;
     private final Strategy strat;
 
-    public BlackJackAutoGameStarter(Strategy curStrat, int term) {
-        super();
+    public BlackJackAutoGameStarter(Strategy curStrat, int term, int numOfDeck) {
+        super(numOfDeck);
         this.term = term;
         this.strat = curStrat;
     }
@@ -33,7 +33,7 @@ class BlackJackAutoGameStarter extends BlackJackStarter {
     }
 
     public static void main(String[] args) {
-        BlackJackAutoGameStarter gs = new BlackJackAutoGameStarter(new SimpleStrategy(14), 10);
+        BlackJackAutoGameStarter gs = new BlackJackAutoGameStarter(new SimpleStrategy(14), 10, 1);
         gs.startGame();
     }
 }

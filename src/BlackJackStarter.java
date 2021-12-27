@@ -13,9 +13,9 @@ abstract class BlackJackStarter {
     private Integer playerNum = 0;
     private Integer dealerNum = 0;
 
-    public BlackJackStarter(){
+    public BlackJackStarter(int numOfDeck){
 //        create and shuffle the entire deck
-        for (int i = 0; i < BlackJackMetadata.numOfDeck; i++){
+        for (int i = 0; i < numOfDeck; i++){
             for (String curSuit: BlackJackMetadata.suits){
                 for (Integer curRank: BlackJackMetadata.ranks){
                     allCard.add(new Card(curSuit, curRank));
