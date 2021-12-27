@@ -33,8 +33,8 @@ class BlackJackAutoGameStarter extends BlackJackStarter {
         }
     }
 
-    public static void main(String[] args) {
-        BlackJackAutoGameStarter gs = new BlackJackAutoGameStarter(new SimpleStrategy(14), 10, 1);
-        gs.startGame();
-    }
+//    public static void main(String[] args) {
+//        BlackJackAutoGameStarter gs = new BlackJackAutoGameStarter(new SimpleStrategy(14), 10, 1);
+//        gs.startGame();
+//    }
 }

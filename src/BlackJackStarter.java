@@ -13,8 +13,8 @@ abstract class BlackJackStarter {
     private Integer playerNum = 0;
     private Integer dealerNum = 0;
 
-    private Integer playerWins;
-    private Integer dealerWins;
+    private Integer playerWins = 0;
+    private Integer dealerWins = 0;
 
     public BlackJackStarter(int numOfDeck){
 //        create and shuffle the entire deck

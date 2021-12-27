@@ -35,8 +35,8 @@ class BlackJackPtpStarter extends BlackJackStarter {
         return true;
     }
 
-    public static void main(String[] args) {
-        BlackJackPtpStarter gs = new BlackJackPtpStarter(1);
-        gs.startGame();
-    }
+//    public static void main(String[] args) {
+//        BlackJackPtpStarter gs = new BlackJackPtpStarter(1);
+//        gs.startGame();
+//    }
 }
