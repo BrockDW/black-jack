@@ -54,18 +54,32 @@ class SimpleStrategy implements Strategy{
 
 class BlackJackAutoGameStarter extends BlackJackStarter{
 
-    public BlackJackAutoGameStarter() {
+    private int term;
 
+    public BlackJackAutoGameStarter(Strategy curStrat, int term) {
+        super(curStrat);
+        this.term = term;
     }
 
     @Override
     public int hitDecider() {
-        return 0;
+        boolean decide = this.getStrat().decide(this.getPlayerHand(), this.getPlayerNum());
+        if (decide){
+            System.out.println("Computer Player decided to hit!");
+        } else {
+            System.out.println("Computer Player decided to stand!");
+        }
+        return decide ? 0 : 2;
     }
 
     @Override
     public boolean continueGameDecider() {
-        return false;
+        if (term > 0){
+            System.out.println("continue playing, currently " + this.term + " number of games left");
+            return true;
+        } else {
+            return false;
+        }
     }
 }
 
@@ -78,7 +92,16 @@ abstract class BlackJackStarter {
 //    index for tracking how many card is used
     private int curIndex = 0;
 
-    public BlackJackStarter(){
+    private Strategy strat;
+
+    private ArrayList<Card> playerHand = new ArrayList<>();
+    private ArrayList<Card> dealerHand = new ArrayList<>();
+    private Integer playerNum = 0;
+    private Integer dealerNum = 0;
+
+
+
+    public BlackJackStarter(Strategy curStrat){
 //        create and shuffle the entire deck
         for (int i = 0; i < BlackJackMetadata.numOfDeck; i++){
             for (String curSuit: BlackJackMetadata.suits){
@@ -88,14 +111,15 @@ abstract class BlackJackStarter {
             }
         }
         Collections.shuffle(allCard);
+        strat = curStrat;
     }
 
     public void startSingleGame(){
         // initialize each hand and the value of player's hand
-        ArrayList<Card> playerHand = new ArrayList<>();
-        ArrayList<Card> dealerHand = new ArrayList<>();
-        Integer playerNum = 0;
-        Integer dealerNum = 0;
+        playerHand = new ArrayList<>();
+        dealerHand = new ArrayList<>();
+        playerNum = 0;
+        dealerNum = 0;
         // game condidtion,
         // 0 = player term
         // 1 = dealer term
@@ -130,7 +154,7 @@ abstract class BlackJackStarter {
                         break;
                     }
                     if (term == 1){
-                        System.out.println("Your current hand includes: " + playerHand.toString());
+                        System.out.println("Player current hand includes: " + playerHand.toString());
                         term = hitDecider();
                     } else {
                         // if player hand is fixed, dealer keep gaining card and check if greater than the player's hand
@@ -194,4 +218,49 @@ abstract class BlackJackStarter {
 //        BlackJackStarter newGame = new BlackJackStarter();
 //        newGame.startGame();
 //    }
+
+
+    public ArrayList<Card> getAllCard() {
+        return allCard;
+    }
+
+    public Strategy getStrat() {
+        return strat;
+    }
+
+    public void setStrat(Strategy strat) {
+        this.strat = strat;
+    }
+
+    public ArrayList<Card> getPlayerHand() {
+        return playerHand;
+    }
+
+    public void setPlayerHand(ArrayList<Card> playerHand) {
+        this.playerHand = playerHand;
+    }
+
+    public ArrayList<Card> getDealerHand() {
+        return dealerHand;
+    }
+
+    public void setDealerHand(ArrayList<Card> dealerHand) {
+        this.dealerHand = dealerHand;
+    }
+
+    public Integer getPlayerNum() {
+        return playerNum;
+    }
+
+    public void setPlayerNum(Integer playerNum) {
+        this.playerNum = playerNum;
+    }
+
+    public Integer getDealerNum() {
+        return dealerNum;
+    }
+
+    public void setDealerNum(Integer dealerNum) {
+        this.dealerNum = dealerNum;
+    }
 }
