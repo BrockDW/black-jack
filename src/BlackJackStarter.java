@@ -13,6 +13,9 @@ abstract class BlackJackStarter {
     private Integer playerNum = 0;
     private Integer dealerNum = 0;
 
+    private Integer playerWins;
+    private Integer dealerWins;
+
     public BlackJackStarter(int numOfDeck){
 //        create and shuffle the entire deck
         for (int i = 0; i < numOfDeck; i++){
@@ -49,6 +52,7 @@ abstract class BlackJackStarter {
                     playerNum += curCard.curRank;
                     if (playerNum > 21){
                         System.out.println("Player's hand exceed 21, Dealer wins!!");
+                        dealerWins++;
                         term = 4;
                         break;
                     }
@@ -61,6 +65,7 @@ abstract class BlackJackStarter {
 
                     if (dealerNum > 21){
                         System.out.println("Dealer's hand exceed 21, Player wins!!");
+                        playerWins++;
                         term = 3;
                         break;
                     }
@@ -74,6 +79,7 @@ abstract class BlackJackStarter {
                         } else if (dealerNum > playerNum){
                             System.out.println("Dealer gained a card. Currently has greater number than player");
                             System.out.println("Dealer wins!!");
+                            dealerWins++;
                             term = 4;
                             break;
                         }
@@ -89,6 +95,7 @@ abstract class BlackJackStarter {
         }
     }
 
+    // method the game use to decide whether to hit or stand
     public abstract int hitDecider();
 
     public void startGame(){
@@ -98,11 +105,17 @@ abstract class BlackJackStarter {
             this.startSingleGame();
             continueGame = continueGameDecider();
         }
+        System.out.println("\n\n");
+        System.out.println("Player Wins: " + playerWins);
+        System.out.println("Dealer Wins: " + dealerWins);
+
     }
 
+    // method for the game to decide how to loop the game
     public abstract boolean continueGameDecider();
 
 
+    // getters
     public ArrayList<Card> getAllCard() {
         return allCard;
     }

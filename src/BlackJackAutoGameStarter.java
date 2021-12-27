@@ -1,3 +1,4 @@
+// this class is for starting a game for computer against computer
 class BlackJackAutoGameStarter extends BlackJackStarter {
 
     private int term;

@@ -1,5 +1,6 @@
 import java.util.Scanner;
 
+// this class is setting up a game for player against player
 class BlackJackPtpStarter extends BlackJackStarter {
     //    scanner for accessing user input
     private final Scanner sc = new Scanner(System.in);
