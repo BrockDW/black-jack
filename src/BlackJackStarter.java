@@ -55,15 +55,17 @@ class SimpleStrategy implements Strategy{
 class BlackJackAutoGameStarter extends BlackJackStarter{
 
     private int term;
+    private final Strategy strat;
 
     public BlackJackAutoGameStarter(Strategy curStrat, int term) {
-        super(curStrat);
+        super();
         this.term = term;
+        this.strat = curStrat;
     }
 
     @Override
     public int hitDecider() {
-        boolean decide = this.getStrat().decide(this.getPlayerHand(), this.getPlayerNum());
+        boolean decide = this.strat.decide(this.getPlayerHand(), this.getPlayerNum());
         if (decide){
             System.out.println("Computer Player decided to hit!");
         } else {
@@ -74,12 +76,59 @@ class BlackJackAutoGameStarter extends BlackJackStarter{
 
     @Override
     public boolean continueGameDecider() {
+        System.out.println("\n\n");
         if (term > 0){
             System.out.println("continue playing, currently " + this.term + " number of games left");
+            this.term--;
             return true;
         } else {
             return false;
         }
+    }
+
+    public static void main(String[] args) {
+        BlackJackAutoGameStarter gs = new BlackJackAutoGameStarter(new SimpleStrategy(14), 10);
+        gs.startGame();
+    }
+}
+
+class BlackJackPtpStarter extends BlackJackStarter{
+    //    scanner for accessing user input
+    private final Scanner sc = new Scanner(System.in);
+
+    public BlackJackPtpStarter() {
+        super();
+    }
+
+    @Override
+    public int hitDecider() {
+        String userResult = "";
+        // ask if user want more card or not
+        System.out.println("Would you like another card?");
+        userResult = sc.nextLine().toUpperCase();
+        // keep asking answers if user input is invalid
+        while (!(userResult.equals("Y") || userResult.equals("N"))){
+            System.out.println("your input is invalid please try again");
+            userResult = sc.nextLine().toUpperCase();
+        }
+        // change term according to user's answer, 2 = player hand fixed
+        return userResult.equals("Y")? 0 : 2;
+    }
+
+    @Override
+    public boolean continueGameDecider() {
+        System.out.println("\n\nWould you like to try another game?");
+        String userResult = sc.nextLine().toUpperCase();
+        if (!userResult.equals("Y")){
+            System.out.println("Thank you for playing the game! Have a nice day!");
+            return false;
+        }
+        return true;
+    }
+
+    public static void main(String[] args) {
+        BlackJackPtpStarter gs = new BlackJackPtpStarter();
+        gs.startGame();
     }
 }
 
@@ -87,21 +136,16 @@ class BlackJackAutoGameStarter extends BlackJackStarter{
 abstract class BlackJackStarter {
 //    list that stores all card
     private final ArrayList<Card> allCard = new ArrayList<>();
-//    scanner for accessing user input
-    private final Scanner sc = new Scanner(System.in);
+
 //    index for tracking how many card is used
     private int curIndex = 0;
-
-    private Strategy strat;
 
     private ArrayList<Card> playerHand = new ArrayList<>();
     private ArrayList<Card> dealerHand = new ArrayList<>();
     private Integer playerNum = 0;
     private Integer dealerNum = 0;
 
-
-
-    public BlackJackStarter(Strategy curStrat){
+    public BlackJackStarter(){
 //        create and shuffle the entire deck
         for (int i = 0; i < BlackJackMetadata.numOfDeck; i++){
             for (String curSuit: BlackJackMetadata.suits){
@@ -111,7 +155,6 @@ abstract class BlackJackStarter {
             }
         }
         Collections.shuffle(allCard);
-        strat = curStrat;
     }
 
     public void startSingleGame(){
@@ -179,19 +222,6 @@ abstract class BlackJackStarter {
     }
 
     public abstract int hitDecider();
-//    {
-//        String userResult = "";
-//        // ask if user want more card or not
-//        System.out.println("Would you like another card?");
-//        userResult = sc.nextLine().toUpperCase();
-//        // keep asking answers if user input is invalid
-//        while (!(userResult.equals("Y") || userResult.equals("N"))){
-//            System.out.println("your input is invalid please try again");
-//            userResult = sc.nextLine().toUpperCase();
-//        }
-//        // change term according to user's answer, 2 = player hand fixed
-//        return userResult.equals("Y")? 0 : 2;
-//    }
 
     public void startGame(){
         // continuely playing the game until user said quit
@@ -203,64 +233,25 @@ abstract class BlackJackStarter {
     }
 
     public abstract boolean continueGameDecider();
-//    {
-//        System.out.println("\n\nWould you like to try another game?");
-//        String userResult = sc.nextLine().toUpperCase();
-//        if (!userResult.equals("Y")){
-//            System.out.println("Thank you for playing the game! Have a nice day!");
-//            return false;
-//        }
-//        return true;
-//    }
-
-//    public static void main(String[] args) {
-//        // start the game
-//        BlackJackStarter newGame = new BlackJackStarter();
-//        newGame.startGame();
-//    }
 
 
     public ArrayList<Card> getAllCard() {
         return allCard;
     }
 
-    public Strategy getStrat() {
-        return strat;
-    }
-
-    public void setStrat(Strategy strat) {
-        this.strat = strat;
-    }
-
     public ArrayList<Card> getPlayerHand() {
         return playerHand;
-    }
-
-    public void setPlayerHand(ArrayList<Card> playerHand) {
-        this.playerHand = playerHand;
     }
 
     public ArrayList<Card> getDealerHand() {
         return dealerHand;
     }
 
-    public void setDealerHand(ArrayList<Card> dealerHand) {
-        this.dealerHand = dealerHand;
-    }
-
     public Integer getPlayerNum() {
         return playerNum;
     }
 
-    public void setPlayerNum(Integer playerNum) {
-        this.playerNum = playerNum;
-    }
-
     public Integer getDealerNum() {
         return dealerNum;
-    }
-
-    public void setDealerNum(Integer dealerNum) {
-        this.dealerNum = dealerNum;
     }
 }
