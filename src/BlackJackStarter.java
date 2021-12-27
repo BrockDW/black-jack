@@ -32,8 +32,45 @@ class Card {
     }
 }
 
+interface Strategy{
+//    public boolean decide(int number);
+    public boolean decide(ArrayList<Card> curHand, int number);
+}
 
-public class BlackJackStarter {
+
+class SimpleStrategy implements Strategy{
+    private int threshhold;
+
+    public SimpleStrategy(int threshHold) {
+        this.threshhold = threshHold;
+    }
+
+    @Override
+    public boolean decide(ArrayList<Card> curHand, int number) {
+        return number < threshhold;
+//        return false;
+    }
+}
+
+class BlackJackAutoGameStarter extends BlackJackStarter{
+
+    public BlackJackAutoGameStarter() {
+
+    }
+
+    @Override
+    public int hitDecider() {
+        return 0;
+    }
+
+    @Override
+    public boolean continueGameDecider() {
+        return false;
+    }
+}
+
+
+abstract class BlackJackStarter {
 //    list that stores all card
     private final ArrayList<Card> allCard = new ArrayList<>();
 //    scanner for accessing user input
@@ -86,23 +123,15 @@ public class BlackJackStarter {
                     // add a card to dealer hand and check if it exceed 21 or not
                     dealerHand.add(curCard);
                     dealerNum += curCard.curRank;
-                    String userResult = "";
+
                     if (dealerNum > 21){
                         System.out.println("Dealer's hand exceed 21, Player wins!!");
                         term = 3;
                         break;
                     }
                     if (term == 1){
-                        // ask if user want more card or not
-                        System.out.println("Your current hand includes: " + playerHand.toString() + ", would you like another card?");
-                        userResult = sc.nextLine().toUpperCase();
-                        // keep asking answers if user input is invalid
-                        while (!(userResult.equals("Y") || userResult.equals("N"))){
-                            System.out.println("your input is invalid please try again");
-                            userResult = sc.nextLine().toUpperCase();
-                        }
-                        // change term according to user's answer, 2 = player hand fixed
-                        term = userResult.equals("Y")? 0 : 2;
+                        System.out.println("Your current hand includes: " + playerHand.toString());
+                        term = hitDecider();
                     } else {
                         // if player hand is fixed, dealer keep gaining card and check if greater than the player's hand
                         if (dealerNum < playerNum){
@@ -125,22 +154,44 @@ public class BlackJackStarter {
         }
     }
 
+    public abstract int hitDecider();
+//    {
+//        String userResult = "";
+//        // ask if user want more card or not
+//        System.out.println("Would you like another card?");
+//        userResult = sc.nextLine().toUpperCase();
+//        // keep asking answers if user input is invalid
+//        while (!(userResult.equals("Y") || userResult.equals("N"))){
+//            System.out.println("your input is invalid please try again");
+//            userResult = sc.nextLine().toUpperCase();
+//        }
+//        // change term according to user's answer, 2 = player hand fixed
+//        return userResult.equals("Y")? 0 : 2;
+//    }
+
     public void startGame(){
         // continuely playing the game until user said quit
-        while (true){
+        boolean continueGame = true;
+        while (continueGame){
             this.startSingleGame();
-            System.out.println("\n\nWould you like to try another game?");
-            String userResult = sc.nextLine().toUpperCase();
-            if (!userResult.equals("Y")){
-                System.out.println("Thank you for playing the game! Have a nice day!");
-                break;
-            }
+            continueGame = continueGameDecider();
         }
     }
 
-    public static void main(String[] args) {
-        // start the game
-        BlackJackStarter newGame = new BlackJackStarter();
-        newGame.startGame();
-    }
+    public abstract boolean continueGameDecider();
+//    {
+//        System.out.println("\n\nWould you like to try another game?");
+//        String userResult = sc.nextLine().toUpperCase();
+//        if (!userResult.equals("Y")){
+//            System.out.println("Thank you for playing the game! Have a nice day!");
+//            return false;
+//        }
+//        return true;
+//    }
+
+//    public static void main(String[] args) {
+//        // start the game
+//        BlackJackStarter newGame = new BlackJackStarter();
+//        newGame.startGame();
+//    }
 }
