@@ -1,12 +1,13 @@
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
+import java.util.stream.Stream;
 
 public class Main {
-
-    public void dataCollection(){
-
-    }
-
-    public static void main(String[] args) {
+    public static void main(String[] args) throws FileNotFoundException {
         Scanner sc = new Scanner(System.in);
         System.out.println("Welcome to black jack game!");
         System.out.println("Please enter the number of deck you want to play: ");

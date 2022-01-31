@@ -80,7 +80,7 @@ abstract class BlackJackStarter {
         int term = 0;
 
         while (term<3){
-            System.out.println(term + " " + dealerFixed);
+//            System.out.println(term + " " + dealerFixed);
             // iterate all cards
             for (;curIndex < allCard.size(); curIndex++){
                 // add a card to player hand and check if it exceed 21 or not
@@ -141,9 +141,9 @@ abstract class BlackJackStarter {
                 curIndex = 0;
             }
         }
-        System.out.println(gameLog.toString());
-        printBothHand(dealerNum, playerNum);
-        System.out.println(resultLog.toString());
+//        System.out.println(gameLog.toString());
+//        printBothHand(dealerNum, playerNum);
+//        System.out.println(resultLog.toString());
     }
 
     // method the game use to decide whether to hit or stand
@@ -187,5 +187,21 @@ abstract class BlackJackStarter {
 
     public Integer getDealerNum() {
         return dealerNum;
+    }
+
+    public Integer getPlayerWins() {
+        return playerWins;
+    }
+
+    public void setPlayerWins(Integer playerWins) {
+        this.playerWins = playerWins;
+    }
+
+    public Integer getDealerWins() {
+        return dealerWins;
+    }
+
+    public void setDealerWins(Integer dealerWins) {
+        this.dealerWins = dealerWins;
     }
 }

@@ -12,6 +12,7 @@ class BlackJackAutoGameStarter extends BlackJackStarter {
         dealerStrat = dealerStrat;
     }
 
+
     @Override
     public int hitDecider() {
         gameLog.append("Player current hand includes: ").append(getPlayerHand().toString()).append("\n");
@@ -33,7 +34,7 @@ class BlackJackAutoGameStarter extends BlackJackStarter {
     public boolean continueGameDecider() {
         System.out.println("\n\n");
         if (term > 0) {
-            System.out.println("it works here "+term);
+//            System.out.println("it works here "+term);
             this.term--;
             return true;
         } else {
