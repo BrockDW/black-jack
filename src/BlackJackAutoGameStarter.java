@@ -12,11 +12,14 @@ class BlackJackAutoGameStarter extends BlackJackStarter {
 
     @Override
     public int hitDecider() {
+        gameLog.append("Player current hand includes: ").append(getPlayerHand().toString()).append("\n");
         boolean decide = this.strat.decide(this.getPlayerHand(), this.getPlayerNum());
         if (decide) {
-            System.out.println("Computer Player decided to hit!");
+            gameLog.append("Computer Player decided to hit!").append("\n");
+//            System.out.println("Computer Player decided to hit!");
         } else {
-            System.out.println("Computer Player decided to stand!");
+            gameLog.append("Computer Player decided to stand!").append("\n");
+//            System.out.println("Computer Player decided to stand!");
         }
         return decide ? 0 : 2;
     }
@@ -25,7 +28,8 @@ class BlackJackAutoGameStarter extends BlackJackStarter {
     public boolean continueGameDecider() {
         System.out.println("\n\n");
         if (term > 0) {
-            System.out.println("continue playing, currently " + this.term + " number of games left");
+            gameLog.append("continue playing, currently").append(" ").append(this.term).append(" ").append("number of games left").append("\n");
+//            System.out.println("continue playing, currently " + this.term + " number of games left");
             this.term--;
             return true;
         } else {

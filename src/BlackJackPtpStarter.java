@@ -11,6 +11,7 @@ class BlackJackPtpStarter extends BlackJackStarter {
 
     @Override
     public int hitDecider() {
+        System.out.println("Player current hand includes: " + getPlayerHand().toString());
         String userResult = "";
         // ask if user want more card or not
         System.out.println("Would you like another card?");

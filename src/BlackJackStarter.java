@@ -16,6 +16,9 @@ abstract class BlackJackStarter {
     private Integer playerWins = 0;
     private Integer dealerWins = 0;
 
+    StringBuilder gameLog;
+    StringBuilder resultLog;
+
     public BlackJackStarter(int numOfDeck){
 //        create and shuffle the entire deck
         for (int i = 0; i < numOfDeck; i++){
@@ -51,12 +54,12 @@ abstract class BlackJackStarter {
     }
 
     private void printBothHand(Integer dealerNum, Integer playerNum){
-        if (dealerNum == null){
-            dealerNum = handCounter(dealerHand);
-        }
-        if (playerNum == null){
-            playerNum = handCounter(playerHand);
-        }
+//        if (dealerNum == null){
+//            dealerNum = handCounter(dealerHand);
+//        }
+//        if (playerNum == null){
+//            playerNum = handCounter(playerHand);
+//        }
         System.out.print("Player's Hand: ");
         System.out.format("%50s%15s", playerHand.toString(), "score: "+playerNum);
         System.out.print("\nDealer's Hand: ");
@@ -71,6 +74,8 @@ abstract class BlackJackStarter {
         dealerHand = new ArrayList<>();
         playerNum = 0;
         dealerNum = 0;
+        gameLog = new StringBuilder();
+        resultLog = new StringBuilder();
         // game condidtion,
         // 0 = player term
         // 1 = dealer term
@@ -89,8 +94,9 @@ abstract class BlackJackStarter {
                     playerNum = handCounter(playerHand);
 //                    playerNum += curCard.curRank;
                     if (playerNum > 21){
-                        printBothHand(null, playerNum);
-                        System.out.println("Player's hand exceed 21, Dealer wins!!");
+//                        printBothHand(null, playerNum);
+//                        System.out.println("Player's hand exceed 21, Dealer wins!!");
+                        resultLog.append("Player's hand exceed 21, Dealer wins!!").append("\n");
                         dealerWins++;
                         term = 4;
                         break;
@@ -104,24 +110,26 @@ abstract class BlackJackStarter {
 //                    dealerNum += curCard.curRank;
 
                     if (dealerNum > 21){
-                        printBothHand(dealerNum, null);
-                        System.out.println("Dealer's hand exceed 21, Player wins!!");
-
+//                        printBothHand(dealerNum, null);
+//                        System.out.println("Dealer's hand exceed 21, Player wins!!");
+                        resultLog.append("Dealer's hand exceed 21, Player wins!!").append("\n");
                         playerWins++;
                         term = 3;
                         break;
                     }
                     if (term == 1){
-                        System.out.println("Player current hand includes: " + playerHand.toString());
                         term = hitDecider();
                     } else {
                         // if player hand is fixed, dealer keep gaining card and check if greater than the player's hand
                         if (dealerNum < playerNum){
-                            System.out.println("Dealer gained a card. Currently has smaller number than player");
+                            gameLog.append("Dealer gained a card. Currently has smaller number than player").append("\n");
+//                            System.out.println("Dealer gained a card. Currently has smaller number than player");
                         } else if (dealerNum > playerNum){
-                            System.out.println("Dealer gained a card. Currently has greater number than player");
-                            printBothHand(dealerNum, playerNum);
-                            System.out.println("Dealer wins!!");
+                            gameLog.append("Dealer gained a card. Currently has greater number than player").append("\n");
+//                            System.out.println("Dealer gained a card. Currently has greater number than player");
+//                            printBothHand(dealerNum, playerNum);
+                            resultLog.append("Dealer wins!!").append("\n");
+//                            System.out.println("Dealer wins!!");
                             dealerWins++;
                             term = 4;
                             break;
@@ -131,11 +139,15 @@ abstract class BlackJackStarter {
             }
             // if card used out, reshuffle and use a new deck
             if (curIndex >= 52){
-                System.out.println("current deck used out, reshuffle the deck and continue playing");
+                gameLog.append("current deck used out, reshuffle the deck and continue playing").append("\n");
+//                System.out.println("current deck used out, reshuffle the deck and continue playing");
                 Collections.shuffle(allCard);
                 curIndex = 0;
             }
         }
+        System.out.println(gameLog.toString());
+        printBothHand(dealerNum, playerNum);
+        System.out.println(resultLog.toString());
     }
 
     // method the game use to decide whether to hit or stand
