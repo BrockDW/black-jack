@@ -26,6 +26,11 @@ class BlackJackPtpStarter extends BlackJackStarter {
     }
 
     @Override
+    public boolean hitDeciderDealer() {
+        return false;
+    }
+
+    @Override
     public boolean continueGameDecider() {
         System.out.println("\n\nWould you like to try another game?");
         String userResult = sc.nextLine().toUpperCase();

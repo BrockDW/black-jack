@@ -1,6 +1,11 @@
 import java.util.Scanner;
 
 public class Main {
+
+    public void dataCollection(){
+
+    }
+
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         System.out.println("Welcome to black jack game!");
@@ -47,7 +52,11 @@ public class Main {
                         break;
                     }
                 }
-                new BlackJackAutoGameStarter(new SimpleStrategy(threshold), numberOfGames - 1, deckNum).startGame();
+                new BlackJackAutoGameStarter(
+                        new SimpleStrategy(threshold),
+                        new SimpleStrategy(21),
+                        numberOfGames - 1,
+                        deckNum).startGame();
                 break;
             }
         }

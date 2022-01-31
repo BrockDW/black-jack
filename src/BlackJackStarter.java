@@ -54,12 +54,6 @@ abstract class BlackJackStarter {
     }
 
     private void printBothHand(Integer dealerNum, Integer playerNum){
-//        if (dealerNum == null){
-//            dealerNum = handCounter(dealerHand);
-//        }
-//        if (playerNum == null){
-//            playerNum = handCounter(playerHand);
-//        }
         System.out.print("Player's Hand: ");
         System.out.format("%50s%15s", playerHand.toString(), "score: "+playerNum);
         System.out.print("\nDealer's Hand: ");
@@ -76,6 +70,7 @@ abstract class BlackJackStarter {
         dealerNum = 0;
         gameLog = new StringBuilder();
         resultLog = new StringBuilder();
+        boolean dealerFixed = false;
         // game condidtion,
         // 0 = player term
         // 1 = dealer term
@@ -85,6 +80,7 @@ abstract class BlackJackStarter {
         int term = 0;
 
         while (term<3){
+            System.out.println(term + " " + dealerFixed);
             // iterate all cards
             for (;curIndex < allCard.size(); curIndex++){
                 // add a card to player hand and check if it exceed 21 or not
@@ -92,10 +88,7 @@ abstract class BlackJackStarter {
                 if (term == 0){
                     playerHand.add(curCard);
                     playerNum = handCounter(playerHand);
-//                    playerNum += curCard.curRank;
                     if (playerNum > 21){
-//                        printBothHand(null, playerNum);
-//                        System.out.println("Player's hand exceed 21, Dealer wins!!");
                         resultLog.append("Player's hand exceed 21, Dealer wins!!").append("\n");
                         dealerWins++;
                         term = 4;
@@ -104,32 +97,36 @@ abstract class BlackJackStarter {
                     // switch to dealer term
                     term = 1;
                 } else {
-                    // add a card to dealer hand and check if it exceed 21 or not
-                    dealerHand.add(curCard);
-                    dealerNum = handCounter(dealerHand);
-//                    dealerNum += curCard.curRank;
+                    if (!dealerFixed){
+                        // add a card to dealer hand and check if it exceed 21 or not
+                        dealerHand.add(curCard);
+                        dealerNum = handCounter(dealerHand);
 
-                    if (dealerNum > 21){
-//                        printBothHand(dealerNum, null);
-//                        System.out.println("Dealer's hand exceed 21, Player wins!!");
-                        resultLog.append("Dealer's hand exceed 21, Player wins!!").append("\n");
-                        playerWins++;
-                        term = 3;
-                        break;
+                        if (dealerNum > 21){
+                            resultLog.append("Dealer's hand exceed 21, Player wins!!").append("\n");
+                            playerWins++;
+                            term = 3;
+                            break;
+                        }
+                        dealerFixed = hitDeciderDealer();
                     }
+
                     if (term == 1){
                         term = hitDecider();
                     } else {
                         // if player hand is fixed, dealer keep gaining card and check if greater than the player's hand
                         if (dealerNum < playerNum){
-                            gameLog.append("Dealer gained a card. Currently has smaller number than player").append("\n");
-//                            System.out.println("Dealer gained a card. Currently has smaller number than player");
-                        } else if (dealerNum > playerNum){
+                            if (dealerFixed){
+                                resultLog.append("player win!").append("\n");
+                                playerWins++;
+                                term = 3;
+                                break;
+                            } else {
+                                gameLog.append("Dealer gained a card. Currently has smaller number than player").append("\n");
+                            }
+                        } else {
                             gameLog.append("Dealer gained a card. Currently has greater number than player").append("\n");
-//                            System.out.println("Dealer gained a card. Currently has greater number than player");
-//                            printBothHand(dealerNum, playerNum);
                             resultLog.append("Dealer wins!!").append("\n");
-//                            System.out.println("Dealer wins!!");
                             dealerWins++;
                             term = 4;
                             break;
@@ -140,7 +137,6 @@ abstract class BlackJackStarter {
             // if card used out, reshuffle and use a new deck
             if (curIndex >= 52){
                 gameLog.append("current deck used out, reshuffle the deck and continue playing").append("\n");
-//                System.out.println("current deck used out, reshuffle the deck and continue playing");
                 Collections.shuffle(allCard);
                 curIndex = 0;
             }
@@ -152,6 +148,9 @@ abstract class BlackJackStarter {
 
     // method the game use to decide whether to hit or stand
     public abstract int hitDecider();
+
+    // method the game use to decide whether to hit or stand
+    public abstract boolean hitDeciderDealer();
 
     public void startGame(){
         // continuely playing the game until user said quit
