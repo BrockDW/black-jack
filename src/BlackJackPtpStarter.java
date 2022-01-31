@@ -29,14 +29,9 @@ class BlackJackPtpStarter extends BlackJackStarter {
         System.out.println("\n\nWould you like to try another game?");
         String userResult = sc.nextLine().toUpperCase();
         if (!userResult.equals("Y")) {
-            System.out.println("Thank you for playing the game! Have a nice day!");
+//            System.out.println("Thank you for playing the game! Have a nice day!");
             return false;
         }
         return true;
     }
-
-//    public static void main(String[] args) {
-//        BlackJackPtpStarter gs = new BlackJackPtpStarter(1);
-//        gs.startGame();
-//    }
 }

@@ -8,6 +8,14 @@ class Card {
         this.curRank = curRank;
     }
 
+    public int getValue(){
+        if (curRank <= 10){
+            return curRank;
+        } else {
+            return 10;
+        }
+    }
+
     //    to string method that print a card
     @Override
     public String toString() {

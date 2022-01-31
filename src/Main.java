@@ -16,9 +16,8 @@ public class Main {
             }
         }
 
-        System.out.println("Please select which mode you want to play: ");
-
         while (true){
+            System.out.println("\n\nPlease select which mode you want to play: ");
             System.out.println("\t1. Player vs Computer. \n\t2. Computer vs Computer");
             int decision = sc.nextInt();
             BlackJackStarter bjs;
@@ -39,15 +38,16 @@ public class Main {
                 }
 
                 System.out.println("Please enter the number of games you want computers to play");
+                int numberOfGames;
                 while (true) {
-                    int numberOfGames= sc.nextInt();
+                    numberOfGames= sc.nextInt();
                     if (numberOfGames <= 0){
                         System.out.println("invalid input, number of games for computer vs computer must be greater than 0");
                     } else {
                         break;
                     }
                 }
-                new BlackJackAutoGameStarter(new SimpleStrategy(threshold), 200, deckNum).startGame();
+                new BlackJackAutoGameStarter(new SimpleStrategy(threshold), numberOfGames - 1, deckNum).startGame();
                 break;
             }
         }
